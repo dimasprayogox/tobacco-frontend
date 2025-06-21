@@ -1,98 +1,461 @@
-<script setup>
-import { ref } from 'vue';
-// Impor komponen ResultCard menggunakan alias '~' dari Nuxt
-import ResultCard from '~/components/ResultCard.vue';
-
-// --- STATE MANAGEMENT ---
-const imagePreviewUrl = ref(null);
-const isProcessing = ref(false);
-const detectionResult = ref(null);
-const fileInput = ref(null);
-
-// --- METHODS ---
-function triggerFileInput() {
-  fileInput.value.click();
-}
-
-function handleFileSelect(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  imagePreviewUrl.value = URL.createObjectURL(file);
-  detectionResult.value = null;
-  simulateDetection();
-}
-
-function simulateDetection() {
-  isProcessing.value = true;
-  setTimeout(() => {
-    const mockResult = {
-      diagnosis: 'Penyakit Mosaik Tembakau (TMV)',
-      confidence: 96,
-      severity: 'Stadium Awal',
-      imageUrl: imagePreviewUrl.value,
-      description: 'Penyakit Mosaik Tembakau disebabkan oleh virus TMV dan ditandai dengan munculnya bercak-bercak hijau muda atau kuning pada daun, membuatnya terlihat seperti mosaik. Penyakit ini sangat menular melalui kontak.',
-      symptoms: [
-        'Pola mosaik atau belang-belang kuning dan hijau pada daun.',
-        'Daun mengerut, melengkung, atau ukurannya kerdil.',
-        'Pertumbuhan tanaman secara keseluruhan terhambat.',
-      ],
-      recommendations: {
-        immediate: 'Segera cabut dan musnahkan (bakar) tanaman yang terinfeksi untuk mencegah penyebaran. Jangan dijadikan kompos.',
-        sanitation: 'Bersihkan semua peralatan (gunting, pisau, sarung tangan) dengan disinfektan setelah menangani tanaman sakit.',
-        prevention: 'Gunakan bibit yang bersertifikat tahan virus dan hindari menyentuh tanaman setelah menggunakan produk tembakau.',
-      },
-    };
-    detectionResult.value = mockResult;
-    isProcessing.value = false;
-  }, 3000);
-}
-
-function resetState() {
-  imagePreviewUrl.value = null;
-  isProcessing.value = false;
-  detectionResult.value = null;
-  if (fileInput.value) {
-    fileInput.value.value = '';
-  }
-}
-</script>
-
 <template>
-  <div class="container mx-auto px-4 py-8 md:py-12">
-    <header class="text-center mb-10">
-      <h1 class="text-4xl md:text-5xl font-extrabold text-green-800 tracking-tight">
-        Tembakau Sehat <span class="text-green-600">AI</span>
-      </h1>
-      <p class="mt-2 text-lg text-slate-600 max-w-2xl mx-auto">
-        Unggah foto daun tembakau Anda, dan biarkan teknologi AI kami menganalisisnya dalam hitungan detik.
-      </p>
-    </header>
+  <div class="min-h-screen bg-gradient-to-b from-green-50 to-amber-50">
+    <section
+      ref="heroRef"
+      class="relative h-screen flex items-center justify-center overflow-hidden"
+      :style="{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/placeholder2.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }"
+    >
+      <div class="absolute inset-0 bg-gradient-to-b from-green-900/20 to-amber-900/20" />
 
-    <div v-if="!imagePreviewUrl" class="max-w-2xl mx-auto">
       <div
-        @click="triggerFileInput"
-        class="flex flex-col items-center justify-center w-full p-8 border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-green-500 hover:bg-green-50 transition-colors duration-300"
+        v-motion
+        :initial="{ opacity: 0, y: 50 }"
+        :visibleOnce="{ opacity: 1, y: 0, transition: { duration: 800, delay: 200 } }"
+        class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto"
       >
-        <svg class="w-16 h-16 text-slate-400 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.776 48.776 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" /></svg>
-        <p class="text-lg font-semibold text-slate-700">Klik untuk memilih gambar</p>
-        <button class="mt-6 bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-green-700 transition-transform duration-200 active:scale-95">
-          Pilih Gambar
-        </button>
+        <h1
+          v-motion
+          :initial="{ opacity: 0, y: 30 }"
+          :visibleOnce="{ opacity: 1, y: 0, transition: { duration: 800, delay: 400 } }"
+          class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-green-300 to-amber-300 bg-clip-text text-transparent"
+        >
+          Tobacco Leaf AI
+        </h1>
+        <p
+          v-motion
+          :initial="{ opacity: 0, y: 30 }"
+          :visibleOnce="{ opacity: 1, y: 0, transition: { duration: 800, delay: 600 } }"
+          class="text-xl md:text-2xl mb-8 text-green-100 leading-relaxed"
+        >
+          Inovasi cerdas untuk petani tembakau: deteksi penyakit daun secara instan, akurat, dan mudah. Unggah foto daun Anda, biarkan AI kami bekerja, dan jaga kualitas panen Anda setiap saat!
+        </p>
+        <div
+          v-motion
+          :initial="{ opacity: 0, y: 30 }"
+          :visibleOnce="{ opacity: 1, y: 0, transition: { duration: 800, delay: 800 } }"
+        >
+          <button
+            @click="scrollToUpload"
+            class="bg-gradient-to-r from-green-600 to-amber-600 hover:from-green-700 hover:to-amber-700 text-white px-8 py-4 text-lg rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 inline-flex items-center"
+          >
+            Coba Sekarang
+            <ArrowRight class="ml-2 h-5 w-5" />
+          </button>
+        </div>
       </div>
-      <p class="text-center text-xs text-slate-500 mt-4">Format: JPG, PNG, JPEG | Ukuran Maks: 10MB</p>
-      <input type="file" ref="fileInput" @change="handleFileSelect" accept="image/png, image/jpeg, image/jpg" class="hidden"/>
-    </div>
+      <div
+        v-motion
+        :animate="{ y: [0, 10, 0] }"
+        :transition="{ duration: 2, repeat: Infinity }"
+        class="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+      >
+        <div class="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+          <div class="w-1 h-3 bg-white rounded-full mt-2" />
+        </div>
+      </div>
+    </section>
 
-    <div v-else class="text-center">
-      <div class="flex justify-center">
-        <img :src="imagePreviewUrl" alt="Preview Daun Tembakau" class="max-h-80 w-auto rounded-lg shadow-xl" />
+    <section ref="mainRef" class="py-20 px-4">
+      <div class="max-w-6xl mx-auto">
+        <div
+          id="upload-section"
+          v-motion
+          :initial="{ opacity: 0, y: 50 }"
+          :visibleOnce="{ opacity: 1, y: 0, transition: { duration: 800 } }"
+          class="mb-20"
+        >
+          <div class="backdrop-blur-lg bg-white/80 border-0 shadow-2xl rounded-3xl overflow-hidden p-8">
+            <h2 class="text-3xl font-bold text-center mb-8 text-green-800">Analisis Daun Tembakau Anda</h2>
+
+            <div v-if="!uploadedImage">
+              <div class="border-2 border-dashed border-green-300 rounded-2xl p-12 text-center hover:border-green-500 transition-colors duration-300">
+                <Upload class="mx-auto h-16 w-16 text-green-500 mb-4" />
+                <p class="text-lg text-green-700 mb-4">Unggah foto daun tembakau untuk analisis</p>
+                <input
+                  type="file"
+                  accept="image/*"
+                  @change="handleImageUpload"
+                  class="hidden"
+                  id="image-upload"
+                />
+                <label for="image-upload">
+                  <span class="bg-green-600 hover:bg-green-700 text-white cursor-pointer py-2 px-4 rounded-md inline-block">
+                    Pilih Gambar
+                  </span>
+                </label>
+              </div>
+            </div>
+            
+            <div v-else>
+              <div v-if="isAnalyzing" class="flex flex-col items-center justify-center space-y-4 p-8">
+                <div class="flex items-center space-x-2">
+                  <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600" />
+                  <span class="text-green-700 text-lg">Menganalisis Gambar...</span>
+                </div>
+                <div class="w-full max-w-md bg-green-200 rounded-full h-3">
+                   <div
+                     v-motion
+                     class="bg-green-600 h-3 rounded-full"
+                     :initial="{ width: 0 }"
+                     :animate="{ width: '100%' }"
+                     :transition="{ duration: 3 }"
+                   />
+                </div>
+              </div>
+
+              <div
+               v-else-if="analysisResult"
+                v-motion
+                :initial="{ opacity: 0, scale: 0.95 }"
+                :enter="{ opacity: 1, scale: 1, transition: { duration: 500 } }"
+              >
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                  <div class="grid md:grid-cols-2">
+                    <div class="p-4">
+                      <img
+                        :src="uploadedImage"
+                        alt="Uploaded leaf"
+                        class="w-full h-full object-cover rounded-xl"
+                      />
+                    </div>
+                    <div class="p-6 flex flex-col justify-between">
+                      <div>
+                        <div class="flex justify-between items-start mb-4">
+                          <div>
+                            <p 
+                              class="font-semibold text-sm uppercase tracking-wider"
+                              :class="{
+                                'text-green-600': analysisResult.theme === 'green',
+                                'text-yellow-600': analysisResult.theme === 'yellow',
+                                'text-orange-600': analysisResult.theme === 'orange',
+                                'text-red-600': analysisResult.theme === 'red'
+                              }"
+                            >
+                              {{ analysisResult.status }}
+                            </p>
+                            <h2 class="text-2xl font-bold text-gray-800">{{ analysisResult.disease }}</h2>
+                          </div>
+                          <div class="relative w-16 h-16 flex items-center justify-center">
+                            <div class="absolute inset-0 transform" :style="accuracyMeterStyle"></div>
+                            <span class="text-xl font-semibold text-gray-700 z-10">{{ analysisResult.accuracy }}<span class="text-sm">%</span></span>
+                          </div>
+                        </div>
+                        <div class="space-y-3 text-gray-600">
+                          <div>
+                            <h3 class="font-semibold text-gray-800 mb-1">Keterangan</h3>
+                            <p class="text-sm">{{ analysisResult.description }}</p>
+                          </div>
+                          <div>
+                            <h3 class="font-semibold text-gray-800 mb-1">Rekomendasi</h3>
+                            <p class="text-sm">{{ analysisResult.rekomendasi }}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mt-6">
+                        <button
+                          @click="resetAnalysis"
+                          class="w-full text-center py-2 px-4 rounded-lg font-semibold transition-colors duration-200 bg-gray-100 hover:bg-gray-200 text-gray-700"
+                        >
+                          Analisis Gambar Lain
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          v-motion
+          :initial="{ opacity: 0, y: 50 }"
+          :visibleOnce="{ opacity: 1, y: 0, transition: { duration: 800, delay: 200 } }"
+          class="mb-20"
+        >
+          <h2 class="text-3xl font-bold text-center mb-12 text-green-800">Penyakit Umum pada Tembakau</h2>
+          <div class="grid md:grid-cols-3 gap-8">
+            <div
+              v-for="(disease, index) in commonDiseases"
+              :key="disease.name"
+              v-motion
+              :initial="{ opacity: 0, y: 30 }"
+              :visibleOnce="{ opacity: 1, y: 0, transition: { duration: 600, delay: 400 + index * 100 } }"
+              class="backdrop-blur-lg bg-white/80 border-0 shadow-xl rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 p-6 text-center"
+            >
+              <div :class="`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${disease.color} flex items-center justify-center`">
+                <component :is="disease.icon" class="h-8 w-8 text-white" />
+              </div>
+              <h3 class="font-bold text-green-800 mb-2">{{ disease.name }}</h3>
+              <p class="text-green-600 text-sm">{{ disease.description }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          v-motion
+          :initial="{ opacity: 0, y: 50 }"
+          :visibleOnce="{ opacity: 1, y: 0, transition: { duration: 800, delay: 400 } }"
+          class="mb-20"
+        >
+          <h2 class="text-3xl font-bold text-center mb-12 text-green-800">Cara Kerja AI Kami</h2>
+          <div class="grid md:grid-cols-3 gap-8">
+            <div
+              v-for="(step, index) in howItWorksSteps"
+              :key="step.step"
+              v-motion
+              class="text-center"
+              :initial="{ opacity: 0, scale: 0.8 }"
+              :visibleOnce="{ opacity: 1, scale: 1, transition: { duration: 600, delay: 600 + index * 100 } }"
+            >
+              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-green-600 to-amber-600 flex items-center justify-center text-white text-2xl font-bold">
+                {{ step.step }}
+              </div>
+              <h3 class="font-bold text-green-800 mb-2">{{ step.title }}</h3>
+              <p class="text-green-600">{{ step.description }}</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div v-if="isProcessing" class="mt-8 flex flex-col items-center justify-center">
-        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-green-600"></div>
-        <p class="mt-4 text-lg font-semibold text-slate-700">Menganalisis gambar Anda...</p>
+    </section>
+
+
+    
+    <footer ref="footerRef" class="relative backdrop-blur-lg bg-green-900/80 text-white py-12">
+      <div
+        v-motion
+        :initial="{ opacity: 0, y: 30 }"
+        :visibleOnce="{ opacity: 1, y: 0, transition: { duration: 800 } }"
+        class="max-w-6xl mx-auto px-4"
+      >
+        <div class="grid md:grid-cols-3 gap-8 mb-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4 text-green-300">Tentang Tim</h3>
+            <p class="text-green-100">
+              Tim pengembang yang berdedikasi untuk memajukan teknologi AI dalam bidang pertanian tembakau.
+            </p>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4 text-green-300">Kontak</h3>
+            <div class="space-y-2">
+              <div class="flex items-center space-x-2">
+                <Mail class="h-4 w-4" />
+                <span class="text-green-100">support@tobaccoleafai.com</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4 text-green-300">Legal</h3>
+            <div class="space-y-2">
+              <div class="flex items-center space-x-2">
+                <Shield class="h-4 w-4" />
+                <span class="text-green-100 cursor-pointer hover:text-green-300">Kebijakan Privasi</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <FileText class="h-4 w-4" />
+                <span class="text-green-100 cursor-pointer hover:text-green-300">Syarat Layanan</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-green-700 pt-8 text-center">
+          <p class="text-green-200">© {{ new Date().getFullYear() }} Tobacco Leaf AI. All rights reserved.</p>
+        </div>
       </div>
-      <ResultCard v-if="detectionResult" :result="detectionResult" @reset="resetState" class="mt-8" />
-    </div>
+    </footer>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref, markRaw, computed } from 'vue'
+import { Upload, ArrowRight, Mail, Shield, FileText, Microscope, Leaf, BarChart3 } from 'lucide-vue-next'
+
+// --- TYPE DEFINITION ---
+type AnalysisData = {
+  accuracy: number;
+  disease: string;
+  description: string;
+  status: string;
+  rekomendasi: string;
+  theme: 'green' | 'yellow' | 'orange' | 'red';
+};
+
+// --- STATE MANAGEMENT ---
+const uploadedImage = ref<string | null>(null); // Untuk preview gambar di UI
+const uploadedFile = ref<File | null>(null); // Untuk dikirim ke API
+const analysisResult = ref<AnalysisData | null>(null);
+const isAnalyzing = ref(false);
+
+// --- ELEMENT REFS ---
+const heroRef = ref<HTMLElement | null>(null);
+const mainRef = ref<HTMLElement | null>(null);
+const footerRef = ref<HTMLElement | null>(null);
+
+// --- STATIC DATA ---
+const commonDiseases = [
+  { name: "Tobacco Mosaic Virus (TMV)", description: "Virus yang menyebabkan pola mozaik pada daun", icon: markRaw(Microscope), color: "from-red-500 to-orange-500" },
+  { name: "Bercak Daun Cercospora", description: "Infeksi jamur dengan bercak coklat", icon: markRaw(Leaf), color: "from-amber-500 to-yellow-500" },
+  { name: "Busuk Akar", description: "Penyakit yang menyerang sistem akar tanaman", icon: markRaw(BarChart3), color: "from-green-500 to-emerald-500" },
+];
+const howItWorksSteps = [
+  { step: "1", title: "Unggah Gambar", description: "Upload foto daun tembakau dengan kualitas yang baik" },
+  { step: "2", title: "Proses AI", description: "AI menganalisis gambar menggunakan deep learning" },
+  { step: "3", title: "Hasil Diagnosis", description: "Dapatkan hasil diagnosis dengan tingkat akurasi tinggi" },
+];
+
+// "KAMUS" UNTUK MENERJEMAHKAN RESPON SERVER
+// Kunci objek (misal 'cercospora nicotianae') harus SAMA PERSIS dengan nilai 'class' dari API Anda.
+const diseaseKnowledgeBase = {
+  'cercospora nicotianae': {
+    displayName: "Bercak Daun Cercospora",
+    description: "Ditemukan bercak nekrotik berwarna coklat muda hingga abu-abu dengan tepi gelap. Gejala ini mengarah kuat pada infeksi jamur Cercospora.",
+    rekomendasi: "Gunakan fungisida yang sesuai. Tingkatkan sirkulasi udara di sekitar tanaman dan hindari penyiraman berlebih pada daun.",
+    theme: 'orange' as const,
+  },
+  ' no cercospora nicotianae or alternaria alternata present': {
+    displayName: "Daun Sehat",
+    description: "Tidak ditemukan indikasi penyakit jamur Cercospora atau Alternaria. Daun tampak dalam kondisi sehat.",
+    rekomendasi: "Lanjutkan praktik perawatan rutin. Pastikan nutrisi dan air tercukupi untuk menjaga kesehatan tanaman.",
+    theme: 'green' as const,
+  },
+  // Tambahkan penyakit lain dari model Anda di sini
+  // 'alternaria alternata': { ... }
+};
+
+
+// --- METHODS ---
+
+// 1. Modifikasi handleImageUpload untuk menyimpan file asli
+const handleImageUpload = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (file) {
+    uploadedFile.value = file; // Simpan file asli
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      uploadedImage.value = e.target?.result as string; // Simpan preview
+      performAnalysis(); // Panggil fungsi analisis API
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+// 2. Fungsi baru untuk memanggil API (menggantikan simulateAnalysis)
+const performAnalysis = async () => {
+  if (!uploadedFile.value) {
+    console.error("Tidak ada file untuk dianalisis.");
+    return;
+  }
+
+  isAnalyzing.value = true;
+  analysisResult.value = null;
+
+  // Gunakan FormData untuk mengirim file
+  const formData = new FormData();
+  formData.append('image', uploadedFile.value); // 'image' adalah key, sesuaikan dengan yang diharapkan server
+
+  try {
+    // GANTI URL INI DENGAN ENDPOINT SERVER ANDA
+    const apiEndpoint = 'https://flask-tobacco.euphemia.site/predict'; 
+
+    console.log("Mengirim gambar ke server...");
+    const response = await $fetch<{ predictions: { class: string, confidence: number }[] }>(apiEndpoint, {
+      method: 'POST',
+      body: formData,
+    });
+    console.log("Respon diterima dari server:", response);
+
+    // Proses respon yang berhasil
+    mapApiResponseToAnalysisData(response);
+
+  } catch (error) {
+    console.error("Gagal saat memanggil API:", error);
+    // Tampilkan pesan error di UI
+    analysisResult.value = {
+      disease: "Gagal Menganalisis",
+      status: "Error",
+      description: "Terjadi kesalahan saat menghubungi server. Silakan coba lagi nanti.",
+      rekomendasi: "Pastikan Anda terhubung ke internet dan server analisis sedang berjalan.",
+      accuracy: 0,
+      theme: 'red',
+    };
+  } finally {
+    isAnalyzing.value = false;
+  }
+};
+
+
+// 3. Fungsi baru untuk "menerjemahkan" respon API
+const mapApiResponseToAnalysisData = (response: { predictions: { class: string, confidence: number }[] }) => {
+  if (!response.predictions || response.predictions.length === 0) {
+    console.error("Respon API tidak valid.");
+    analysisResult.value = {
+      disease: "Respon Tidak Valid",
+      status: "Error",
+      description: "Server memberikan respon dengan format yang tidak dikenali.",
+      rekomendasi: "Hubungi administrator server.",
+      accuracy: 0,
+      theme: 'red',
+    };
+    return;
+  }
+
+  const topPrediction = response.predictions[0];
+  const predictedClass = topPrediction.class.trim(); // trim() untuk menghapus spasi di awal/akhir
+  
+  const knownDisease = diseaseKnowledgeBase[predictedClass as keyof typeof diseaseKnowledgeBase];
+
+  if (knownDisease) {
+    analysisResult.value = {
+      disease: knownDisease.displayName,
+      status: knownDisease.theme === 'green' ? 'Sehat' : 'Penyakit Terdeteksi',
+      description: knownDisease.description,
+      rekomendasi: knownDisease.rekomendasi,
+      theme: knownDisease.theme,
+      accuracy: Math.round(topPrediction.confidence * 100),
+    };
+  } else {
+    // Fallback jika kelas penyakit tidak ada dalam "kamus"
+    analysisResult.value = {
+      disease: `Kelas Tidak Dikenali: ${predictedClass}`,
+      status: "Tidak Diketahui",
+      description: "Model AI mendeteksi sebuah kelas yang belum terdaftar di dalam sistem UI.",
+      rekomendasi: "Harap perbarui 'diseaseKnowledgeBase' di dalam kode untuk menangani kelas ini.",
+      accuracy: Math.round(topPrediction.confidence * 100),
+      theme: 'yellow',
+    };
+  }
+};
+
+
+const scrollToUpload = () => {
+  document.getElementById("upload-section")?.scrollIntoView({ behavior: "smooth" });
+};
+
+const resetAnalysis = () => {
+  uploadedImage.value = null;
+  uploadedFile.value = null;
+  analysisResult.value = null;
+};
+
+// --- COMPUTED PROPERTIES ---
+const themeColors = {
+  green: '#16a34a', yellow: '#ca8a04', orange: '#ea580c', red: '#dc2626',
+};
+
+const accuracyMeterStyle = computed(() => {
+  if (!analysisResult.value) return {};
+  const { accuracy, theme } = analysisResult.value;
+  const color = themeColors[theme] || '#6b7280';
+  return {
+    background: `radial-gradient(white 60%, transparent 61%), conic-gradient(${color} 0% ${accuracy}%, #e5e7eb ${accuracy}% 100%)`,
+    borderRadius: '50%',
+  };
+});
+</script>
