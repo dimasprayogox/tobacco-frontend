@@ -4,9 +4,9 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
-# Salin file package.json dan bun.lockb (jika pakai bun)
+# Salin file package.json dan bun.lock (jika pakai bun)
 COPY package.json ./
-COPY bun.lockb* ./
+COPY bun.lock ./
 
 # Install Bun (jika ingin pakai bun)
 RUN npm install -g bun
