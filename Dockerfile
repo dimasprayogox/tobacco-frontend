@@ -20,5 +20,8 @@ COPY . .
 # Build aplikasi Nuxt
 RUN bun run build
 
-# Jalankan aplikasi di mode production
-CMD ["bun", "run", "preview"]
+# Expose port yang digunakan oleh Nuxt (default 3000)
+EXPOSE 3000
+
+# Jalankan aplikasi di mode production secara langsung
+CMD ["node", ".output/server/index.mjs"]
