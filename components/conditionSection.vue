@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="condition">
       <h2 
         class="text-4xl font-bold text-center mb-12 text-gray-800"
         v-motion

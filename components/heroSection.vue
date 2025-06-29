@@ -1,8 +1,5 @@
 <template>
-  <NavbarSection />
-  
-  <section class="w-full bg-[#5a4a3a]">
-    
+  <section id="hero" class="w-full bg-[#5a4a3a]">
     <div class="relative flex flex-col-reverse md:flex-row mx-auto justify-between items-center gap-9 md:gap-4 max-w-[1300px] pt-24 overflow-hidden pb-9 px-4 md:px-8">
       
       <div class="md:w-[520px] z-20">
